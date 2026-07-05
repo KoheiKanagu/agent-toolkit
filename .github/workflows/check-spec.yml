@@ -1,0 +1,16 @@
+name: Check OKF spec sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1"
+
+jobs:
+  check-spec:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Check vendored spec against upstream
+        run: bash okf/scripts/sync-spec.sh --check
