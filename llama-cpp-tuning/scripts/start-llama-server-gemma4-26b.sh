@@ -23,5 +23,6 @@ llama-server \
   -ngl -1 \
   -c "${CONTEXT_SIZE}" \
   -np 1 \
+  --no-mmap \
   --port "${PORT}" \
   --host "${HOST}"

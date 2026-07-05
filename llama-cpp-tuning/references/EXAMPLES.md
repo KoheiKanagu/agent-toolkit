@@ -54,7 +54,7 @@ llama-bench -hf google/gemma-4-26B-A4B-it-qat-q4_0-gguf \
 
 ## llama-server 起動例
 
-### コーディングエージェント基本設定
+### コーディングエージェント基本設定（Apple Silicon Unified Memory）
 
 ※ 同じ内容の起動スクリプトは [`scripts/start-llama-server-gemma4-26b.sh`](../scripts/start-llama-server-gemma4-26b.sh) として用意している。
 
@@ -66,6 +66,7 @@ llama-server -hf google/gemma-4-26B-A4B-it-qat-q4_0-gguf \
   -ngl -1 \
   -c 16384 \
   -np 1 \
+  --no-mmap \
   --port 8080 \
   --host 127.0.0.1
 ```
@@ -75,7 +76,7 @@ llama-server -hf google/gemma-4-26B-A4B-it-qat-q4_0-gguf \
 ```bash
 llama-server -hf google/gemma-4-26B-A4B-it-qat-q4_0-gguf \
   -t 10 -fa auto -b 2048 -ub 2048 -ngl -1 \
-  -c 32768 -np 1 \
+  -c 32768 -np 1 --no-mmap \
   --port 8080 --host 127.0.0.1
 ```
 
@@ -84,7 +85,7 @@ llama-server -hf google/gemma-4-26B-A4B-it-qat-q4_0-gguf \
 ```bash
 llama-server -hf google/gemma-4-26B-A4B-it-qat-q4_0-gguf \
   -t 10 -fa auto -b 2048 -ub 2048 -ngl -1 -c 16384 -np 1 \
-  --mlock \
+  --no-mmap --mlock \
   --port 8080 --host 127.0.0.1
 ```
 

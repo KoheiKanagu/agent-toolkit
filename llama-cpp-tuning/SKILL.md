@@ -47,6 +47,7 @@ llama-server -hf <model-repo> \
   -ngl -1 \
   -c 16384 \
   -np 1 \
+  --no-mmap \
   --port 8080 --host 127.0.0.1
 ```
 
@@ -55,6 +56,7 @@ llama-server -hf <model-repo> \
 - `-b 2048 -ub 2048`: Apple Silicon では長文プロンプトで効きやすい
 - `-ngl -1`: メモリに収まるなら全GPU載せ
 - `-c 16384`: コーディング用途の現実的な初期値
+- `--no-mmap`: Apple Silicon Unified Memory では、モデル全体をメモリに読み込む方が速い傾向
 
 ## 詳細手順
 
@@ -81,6 +83,7 @@ llama-server -hf <model-repo> \
 - **llama-bench と llama-server の違い**: `llama-bench` は理想値、`llama-server` は実APIのオーバーヘッド込み。
 - **モデル依存**: 得られた結果は他のモデルにそのまま当てはめない。アーキテクチャ、サイズ、量子化方式で最適値が変わる。
 - **Flash Attention**: 常にONが最適とは限らない。`auto` から始めて、必要に応じて `on`/`off` を試す。
+- **mmap**: デフォルトの memory-mapped files は見かけ上のメモリ使用量を抑えられるが、Apple Silicon Unified Memory では `--no-mmap` の方が高速なことが多い。メモリに余裕がある場合は `--no-mmap` を試す。
 
 ## バージョン追従
 
