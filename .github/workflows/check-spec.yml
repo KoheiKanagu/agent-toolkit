@@ -13,4 +13,4 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Check vendored spec against upstream
-        run: bash okf/scripts/sync-spec.sh --check
+        run: bash skills/okf/scripts/sync-spec.sh --check
