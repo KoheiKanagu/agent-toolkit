@@ -14,6 +14,7 @@
 
 - 1変更 = 1論理コミット。
 - **worktree・作業ブランチを作るとき**: 起点は必ず `origin/main`(リモート ref)。ローカルの `main` は未 push コミットを含むことがあり、PR の diff に混入する。既にデフォルトブランチ上で変更・コミットしてしまった場合は、現 HEAD から作業ブランチを切って退避し、ローカルのデフォルトブランチを origin に揃え直す。
+- **worktree を作るとき**: 配置先は `../worktrees/<リポジトリ名>/<issue番号 or ブランチ名>` にする。リポジトリ外に置くことで、誤って本体の worktree や gitignore に混入するのを防ぐ。
 - **push する前**(履歴書き換え(amend・rebase)をしたら、次の push の前に再確認): ベース汚染を確認する。`git fetch origin <base>` してから — (1) `git diff --name-only origin/<base>...HEAD` のファイル一覧に、この PR が触るはずのないパスがないか目視する。(2) `git cherry origin/<base> HEAD` に `-` で始まる行(ベースと patch 等価な重複コミット — 誤った rebase/reset がマージ済みの作業を再導入した印)がないか確認する。どちらかに該当したら rebase で取り除いてから push する。
 - **stacked PR を rebase するとき**: 依存 PR がマージされたら、`git rebase --onto` の前に必ず `git fetch origin <base>`。古い base への rebase は依存のマージ済み変更を無言で落とす(rebase は自分の diff しか replay しない)。rebase 後、依存のシンボルが HEAD に残っていることを grep で確認して完了とする。
 - **push するとき**: コミットを溜めて1回で push する。push ごとに CI とレビューが走るため。
