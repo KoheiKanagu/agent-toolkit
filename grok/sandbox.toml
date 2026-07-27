@@ -1,0 +1,16 @@
+# Global sandbox profiles (linked to ~/.grok/sandbox.toml via install-grok-links.sh)
+# Docs: Grok user guide — Permissions / Sandbox
+
+[profiles.workspace-safe]
+extends = "workspace"
+# Kernel-enforced: no read/write/rename via bash, python, tools, or subagents.
+# macOS: globs apply at runtime (files created later still denied).
+# Linux: globs expand at launch only — prefer exact paths for airtight secrets there.
+deny = [
+  "**/.env",
+  "**/.env.local",
+  "**/.env.development",
+  "**/.env.production",
+  "**/.env.staging",
+  "**/.env.test",
+]

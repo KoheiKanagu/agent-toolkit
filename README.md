@@ -6,6 +6,8 @@
 
 ```
 AGENTS.md                    # 常時ロードされる共通ルール(毎ターン読まれるため厳選)
+grok/
+  sandbox.toml               # Grok グローバル sandbox profile（~/.grok/sandbox.toml へリンク）
 skills/
   create-pr/SKILL.md             # PR 作成前チェックリストと body の書き方
   review-pr/SKILL.md             # PR レビューの方法論・判断基準
@@ -38,8 +40,13 @@ skills/
 ```
 
 - **Copilot**: `AGENTS.md` → `~/.copilot/copilot-instructions.md`、`skills/` を `~/.copilot/skills` にディレクトリごとリンク
-- **Grok**: `AGENTS.md` → `~/.grok/AGENTS.md`、各スキルを `~/.grok/skills/<name>` に個別リンク(既存の Grok 付属スキルを潰さない)
+- **Grok**:
+  - `AGENTS.md` → `~/.grok/AGENTS.md`
+  - `grok/sandbox.toml` → `~/.grok/sandbox.toml`
+  - `~/.grok/config.toml` に `[sandbox] profile = "workspace-safe"` を保証（他キーは触らない）
+  - 各スキルを `~/.grok/skills/<name>` に個別リンク（既存の Grok 付属スキルを潰さない）
 
+`workspace-safe` は `workspace` ベースで `**/.env` および一般的な `.env.*` 派生をカーネル deny する profile。一時的に外すときは `grok --sandbox off`。
 ### プロジェクト単位
 
 1. `AGENTS.md` の内容をプロジェクトの `AGENTS.md` に統合する(または全文コピーして冒頭にプロジェクト固有事項を追記)
