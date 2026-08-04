@@ -14,3 +14,7 @@ deny = [
   "**/.env.staging",
   "**/.env.test",
 ]
+
+read_write = [
+  "/Users/kingu/fvm",
+]
