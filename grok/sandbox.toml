@@ -17,4 +17,6 @@ deny = [
 
 read_write = [
   "/Users/kingu/fvm",
+  "/Users/kingu/.pub-cache",
+  "/Users/kingu/.dart-tool"
 ]
