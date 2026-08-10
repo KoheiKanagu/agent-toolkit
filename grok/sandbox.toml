@@ -16,7 +16,14 @@ deny = [
 ]
 
 read_write = [
+  # Flutter / Dart
   "/Users/kingu/fvm",
   "/Users/kingu/.pub-cache",
-  "/Users/kingu/.dart-tool"
+  "/Users/kingu/.dart-tool",
+  # SPM / xcodebuild / シミュ（シェル経由）
+  "/Users/kingu/Library/Caches/org.swift.swiftpm",
+  "/Users/kingu/Library/Developer/Xcode",
+  "/Users/kingu/Library/Developer/CoreSimulator",
+  # git commit GPG 署名
+  "/Users/kingu/.gnupg",
 ]
