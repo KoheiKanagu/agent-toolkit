@@ -1,0 +1,18 @@
+{
+  "dart": {
+    "command": "fvm",
+    "args": [
+      "dart",
+      "language-server",
+      "--protocol=lsp",
+      "--client-id=grok",
+      "--client-version=1.0"
+    ],
+    "extensionToLanguage": {
+      ".dart": "dart"
+    },
+    "startupTimeout": 90000,
+    "restartOnCrash": true,
+    "maxRestarts": 3
+  }
+}

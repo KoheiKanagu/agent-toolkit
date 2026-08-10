@@ -6,6 +6,7 @@ GROK_DIR="${HOME}/.grok"
 SKILLS_SRC_DIR="${REPO_ROOT}/skills"
 SKILLS_DST_DIR="${GROK_DIR}/skills"
 SANDBOX_SRC="${REPO_ROOT}/grok/sandbox.toml"
+LSP_SRC="${REPO_ROOT}/grok/lsp.json"
 CONFIG_TOML="${GROK_DIR}/config.toml"
 SANDBOX_PROFILE="workspace-safe"
 
@@ -24,6 +25,12 @@ fi
 if [[ -f "${SANDBOX_SRC}" ]]; then
   ln -sfn "${SANDBOX_SRC}" "${GROK_DIR}/sandbox.toml"
   echo "Linked grok/sandbox.toml -> ${GROK_DIR}/sandbox.toml"
+fi
+
+# lsp.json (グローバル — 全プロジェクトで language server を使う)
+if [[ -f "${LSP_SRC}" ]]; then
+  ln -sfn "${LSP_SRC}" "${GROK_DIR}/lsp.json"
+  echo "Linked grok/lsp.json -> ${GROK_DIR}/lsp.json"
 fi
 
 # config.toml の [sandbox] profile を既定にする（なければ追記、あれば合わせる）
