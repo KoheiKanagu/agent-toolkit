@@ -26,4 +26,6 @@ read_write = [
   "/Users/kingu/Library/Developer/CoreSimulator",
   # git commit GPG 署名
   "/Users/kingu/.gnupg",
+  # cache
+  "/Users/kingu/.cache/gh"
 ]
