@@ -27,5 +27,7 @@ read_write = [
   # git commit GPG 署名
   "/Users/kingu/.gnupg",
   # cache
-  "/Users/kingu/.cache/gh"
+  "/Users/kingu/.cache/gh",
+  # agent-toolkit
+  "/Users/kingu/Develop/agent-toolkit",
 ]

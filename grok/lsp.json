@@ -14,5 +14,14 @@
     "startupTimeout": 90000,
     "restartOnCrash": true,
     "maxRestarts": 3
+  },
+  "swift": {
+    "command": "sourcekit-lsp",
+    "extensionToLanguage": {
+      ".swift": "swift"
+    },
+    "startupTimeout": 90000,
+    "restartOnCrash": true,
+    "maxRestarts": 3
   }
 }
