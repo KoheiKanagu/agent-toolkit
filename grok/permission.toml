@@ -1,0 +1,49 @@
+# Global permission hard limits (merged into ~/.grok/config.toml by install-grok-links.sh).
+# deny always wins over allow / always-approve. Loaded at session start.
+#
+# Grok does not load this file by itself — only [permission] inside config.toml
+# (or project .grok/config.toml). Keep this file as the committed source of truth.
+
+[permission]
+deny = [
+  # Destructive filesystem
+  "Bash(rm -rf /*)",
+  "Bash(rm -rf /)",
+  "Bash(rm -rf ~/*)",
+  "Bash(rm -rf $HOME/*)",
+  "Bash(rm -rf ~)",
+  "Bash(rm -rf $HOME)",
+  "Bash(sudo rm *)",
+  "Bash(sudo *)",
+
+  # Disk / partition damage
+  "Bash(mkfs *)",
+  "Bash(diskutil erase*)",
+  "Bash(diskutil partition*)",
+  "Bash(dd if=* of=/dev/*)",
+
+  # Git remote history rewrite (local reset/clean are allowed)
+  "Bash(git push --force *)",
+  "Bash(git push -f *)",
+  "Bash(git push --force-with-lease *)",
+
+  # Credential / secret paths (Read/Edit also apply to shell path operands)
+  "Read(**/.ssh/**)",
+  "Edit(**/.ssh/**)",
+  "Read(**/.aws/**)",
+  "Edit(**/.aws/**)",
+  "Read(**/.gnupg/**)",
+  "Edit(**/.gnupg/**)",
+  "Read(**/.config/gh/**)",
+  "Edit(**/.config/gh/**)",
+  "Read(**/.env)",
+  "Edit(**/.env)",
+  "Read(**/.env.*)",
+  "Edit(**/.env.*)",
+  "Read(**/*credentials*)",
+  "Edit(**/*credentials*)",
+  "Read(**/*.pem)",
+  "Edit(**/*.pem)",
+  "Read(**/*.p12)",
+  "Edit(**/*.p12)",
+]

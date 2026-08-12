@@ -7,6 +7,7 @@ SKILLS_SRC_DIR="${REPO_ROOT}/skills"
 SKILLS_DST_DIR="${GROK_DIR}/skills"
 SANDBOX_SRC="${REPO_ROOT}/grok/sandbox.toml"
 LSP_SRC="${REPO_ROOT}/grok/lsp.json"
+PERMISSION_SRC="${REPO_ROOT}/grok/permission.toml"
 CONFIG_TOML="${GROK_DIR}/config.toml"
 SANDBOX_PROFILE="workspace-safe"
 
@@ -93,6 +94,52 @@ ensure_sandbox_profile() {
 }
 
 ensure_sandbox_profile "${SANDBOX_PROFILE}"
+
+
+# config.toml の [permission] を grok/permission.toml の内容で置き換える
+# （マシン固有の他セクションは触らない。Grok は permission.toml を直接読まない）
+ensure_permission_rules() {
+  if [[ ! -f "${PERMISSION_SRC}" ]]; then
+    echo "Skip permission: ${PERMISSION_SRC} not found"
+    return
+  fi
+  if [[ ! -f "${CONFIG_TOML}" ]]; then
+    cp "${PERMISSION_SRC}" "${CONFIG_TOML}"
+    echo "Created ${CONFIG_TOML} from permission.toml"
+    return
+  fi
+
+  local tmp
+  tmp="$(mktemp)"
+  awk '
+    BEGIN { skip = 0 }
+    /^[[:space:]]*\[permission\]/ { skip = 1; next }
+    /^[[:space:]]*\[[^]]+\]/ {
+      if (skip) skip = 0
+    }
+    skip { next }
+    { print }
+  ' "${CONFIG_TOML}" > "${tmp}"
+
+  # Drop trailing blank/comment lines (previous permission headers), then append
+  local tmp2
+  tmp2="$(mktemp)"
+  awk '
+    BEGIN { n = 0 }
+    { lines[++n] = $0 }
+    END {
+      while (n > 0 && (lines[n] ~ /^[[:space:]]*$/ || lines[n] ~ /^[[:space:]]*#/)) n--
+      for (i = 1; i <= n; i++) print lines[i]
+    }
+  ' "${tmp}" > "${tmp2}"
+  printf '\n' >> "${tmp2}"
+  cat "${PERMISSION_SRC}" >> "${tmp2}"
+  mv "${tmp2}" "${CONFIG_TOML}"
+  rm -f "${tmp}"
+  echo "Merged [permission] from grok/permission.toml into ${CONFIG_TOML}"
+}
+
+ensure_permission_rules
 
 # skills (スキル単位 — ~/.grok/skills 内の既存スキルを潰さない)
 if [[ -d "${SKILLS_SRC_DIR}" ]]; then

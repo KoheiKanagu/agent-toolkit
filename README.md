@@ -9,6 +9,7 @@ AGENTS.md                    # 常時ロードされる共通ルール(毎ター
 grok/
   sandbox.toml               # Grok グローバル sandbox profile（~/.grok/sandbox.toml へリンク）
   lsp.json                   # Grok グローバル LSP servers（~/.grok/lsp.json へリンク）
+  permission.toml            # グローバル [permission] deny 正本（install で config.toml にマージ）
 skills/
   create-pr/SKILL.md             # PR 作成前チェックリストと body の書き方
   review-pr/SKILL.md             # PR レビューの方法論・判断基準
@@ -45,6 +46,7 @@ skills/
   - `AGENTS.md` → `~/.grok/AGENTS.md`
   - `grok/sandbox.toml` → `~/.grok/sandbox.toml`
   - `grok/lsp.json` → `~/.grok/lsp.json`
+  - `grok/permission.toml` の `[permission]` を `~/.grok/config.toml` にマージ（他セクションは触らない）
   - `~/.grok/config.toml` に `[sandbox] profile = "workspace-safe"` を保証（他キーは触らない）
   - 各スキルを `~/.grok/skills/<name>` に個別リンク（既存の Grok 付属スキルを潰さない）
 
