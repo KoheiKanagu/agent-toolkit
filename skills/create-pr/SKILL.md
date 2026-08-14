@@ -1,15 +1,17 @@
 ---
 name: create-pr
-description: 変更をコミットして draft PR を作成する。「PR を作って」「コミットして PR に」で起動。既存 PR の更新だけなら使わない(AGENTS.md「GitHub 操作」に従う)。
+description: 変更をコミットして draft PR を作成する。「PR を作って」「コミットして PR に」で起動。既存 PR の更新・コミットや push だけの作業では使わない — それらは `skills/git-workflow`。
 ---
 
 # PR 作成
 
+着手前に `skills/git-workflow` を読む(ブランチ、push 前確認、1論理コミット、作成後の CI 監視)。
+
 ## 作成前チェックリスト(この順で)
 
-1. **ブランチ**: デフォルトブランチ上にいるなら、先に作業ブランチを切る。命名はチームの規約(issue ID ベース等 — 導入先の AGENTS.md)に従う。
-2. **ベース汚染チェック**: ベースブランチを特定し(stacked PR なら親ブランチ)、AGENTS.md「コミットと push」の push 前確認(`git diff --name-only` の目視 + `git cherry` の `-` 行)を実行する。汚染があれば rebase で取り除いてから進む。以降、履歴を書き換えるたびに再確認する。
-3. **コミット形状**: 1論理コミットにまとまっているか(AGENTS.md「コミットと push」)。
+1. **ブランチ**: `skills/git-workflow` の worktree・作業ブランチルール。命名は導入先の AGENTS.md。未定義ならユーザーに確認する。
+2. **ベース汚染チェック**: ベースブランチを特定し(stacked PR なら親ブランチ)、`skills/git-workflow` の push 前確認を実行する。汚染があれば取り除いてから進む。以降、履歴を書き換えるたびに再確認する。
+3. **コミット形状**: `skills/git-workflow` の 1論理コミット。
 4. **draft で作成する**。
 
 ## PR body に書くこと
@@ -23,5 +25,5 @@ description: 変更をコミットして draft PR を作成する。「PR を作
 
 ## 作成後
 
-- push 後は CI とレビューを終端状態まで監視して結果を報告する(AGENTS.md「長時間ジョブの監視」)。
+- push 後は `skills/git-workflow` の監視ルールに従い、CI とレビューを終端状態まで見て結果を報告する。
 - CI とセルフレビュー(`skills/review-pr` を自分の差分に適用)が通ったら ready にする。ready 化を人間が行う規約のチーム(導入先の AGENTS.md)では、通った旨を報告して依頼する。
