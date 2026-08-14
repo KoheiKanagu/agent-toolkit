@@ -16,6 +16,7 @@ skills/
   triage-issues/SKILL.md         # issue の実装可能性トリアージの判断基準
   promote-learnings/SKILL.md     # 個人のナレッジをチーム共有ナレッジへ昇格するループ
   write-agent-knowledge/SKILL.md # SKILL.md / AGENTS.md 自体の書き方(メタスキル)
+  align-agent-harness/SKILL.md   # リポジトリを Grok 向け骨格に揃える手順
   okf/                         # OKF skill package と参考資料
   llama-cpp-tuning/            # Apple Silicon 上での llama.cpp パフォーマンス調整
 ```
