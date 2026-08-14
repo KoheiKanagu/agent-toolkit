@@ -16,7 +16,8 @@ skills/
   triage-issues/SKILL.md         # issue の実装可能性トリアージの判断基準
   promote-learnings/SKILL.md     # 個人のナレッジをチーム共有ナレッジへ昇格するループ
   write-agent-knowledge/SKILL.md # SKILL.md / AGENTS.md 自体の書き方(メタスキル)
-  align-agent-harness/SKILL.md   # リポジトリを Grok 向け骨格に揃える手順
+  bootstrap-agent-harness/SKILL.md # 新しいリポジトリに骨格を置く（本線）
+  migrate-agent-harness/SKILL.md   # Copilot / OKF / 無人ボットからの移行
   okf/                         # OKF skill package と参考資料
   llama-cpp-tuning/            # Apple Silicon 上での llama.cpp パフォーマンス調整
 ```
@@ -54,8 +55,10 @@ skills/
 `workspace-safe` は `workspace` ベースで `**/.env` および一般的な `.env.*` 派生をカーネル deny する profile。一時的に外すときは `grok --sandbox off`。
 ### プロジェクト単位
 
-1. `AGENTS.md` の内容をプロジェクトの `AGENTS.md` に統合する(または全文コピーして冒頭にプロジェクト固有事項を追記)
-2. プロジェクト限定で使うスキルは `.grok/skills/<name> → <toolkit>/skills/<name>` のように symlink する
+グローバル `AGENTS.md`（このリポジトリ → `~/.grok/AGENTS.md`）は個人の開発方針の正本。プロジェクトへコピーしない。
+
+1. プロジェクトの `AGENTS.md` には、そのリポジトリ固有の境界・正本・トリガーだけを書く（スキル `bootstrap-agent-harness`）
+2. プロジェクト限定の手順スキルは `<repo>/.agents/skills/` に置く。toolkit のスキルはグローバルリンクで足りる
 
 ## 導入先の AGENTS.md で定義する値
 
