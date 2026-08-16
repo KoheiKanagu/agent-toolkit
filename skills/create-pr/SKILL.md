@@ -25,5 +25,5 @@ description: 変更をコミットして draft PR を作成する。「PR を作
 
 ## 作成後
 
-- push 後は `skills/git-workflow` の監視ルールに従い、CI を終端状態まで見て結果を報告する。導入先が Copilot 待ちをマージ前提にする、またはユーザーがそう指示したときは、セルフレビューではなく `git-workflow` の待ちスクリプトで Copilot 側を終端とする。
+- push 後は `skills/git-workflow` の監視ルールに従い、CI を終端状態まで見て結果を報告する。マージするときは同スキルの「PR をマージするとき」に従う。Copilot が依頼中なら待ちスクリプトで終端とする。
 - CI とセルフレビュー(`skills/review-pr` を自分の差分に適用)が通ったら ready にする。ready 化を人間が行う規約のチーム(導入先の AGENTS.md)では、通った旨を報告して依頼する。

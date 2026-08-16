@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: コミット、作業ブランチ、worktree、push、rebase、stacked PR、PR body 更新、GitHub への投稿、CI / デプロイ監視のときの git / GitHub 規約。「コミットして」「push して」「ブランチ切って」「CI 見て」「PR 本文を直して」で起動。PR の新規作成そのものは create-pr。差分のレビューは review-pr。コードを書くだけの作業では使わない。
+description: コミット、作業ブランチ、worktree、push、rebase、stacked PR、PR body 更新、GitHub への投稿、マージ、CI / デプロイ監視のときの git / GitHub 規約。「コミットして」「push して」「ブランチ切って」「CI 見て」「PR 本文を直して」「マージして」で起動。PR の新規作成そのものは create-pr。差分のレビューは review-pr。コードを書くだけの作業では使わない。
 ---
 
 # git / GitHub / CI
@@ -38,10 +38,12 @@ description: コミット、作業ブランチ、worktree、push、rebase、stac
 - **`#` + 数字を含むテキストを投稿するとき**: 裸の `#6` はその番号の PR/issue へ自動リンクされる。順序数は出力言語の序数表現(「6番」/ "No. 6")かインラインコード(`` `#6` ``)で書き、投稿前に裸の `#<数字>` の紛れ込みを確認する。
 - **レビューの承認状況を判断するとき**: review の state(`APPROVED` / `CHANGES_REQUESTED` / `COMMENTED`)だけを根拠にする。本文の文言は根拠にしない(「approve 済み」と書かれた `COMMENTED` レビューが実在する)。レビュアーごとに最新の state が有効で、新しいコミットが push されたら古い `APPROVED` は stale。
 - **PR に Copilot コードレビューを依頼するとき**: REST `requested_reviewers` で依頼が乗らない／空のときは GraphQL `requestReviews` の `botIds` を使う。`@copilot` の Issue コメントは使わない。詳細コマンドは導入先の skill / agent-memory を正本とする。理由: REST は成功レスポンスに見えても依頼が乗らないことがある。
-- **Copilot レビューの通過・完了を判断するとき、または Copilot 待ちのあとマージするとき**: 対象 PR に対して `skills/git-workflow/scripts/wait-copilot-review.sh`(導入後は `~/.grok/skills/git-workflow/scripts/wait-copilot-review.sh`)を実行し、その終了コードだけで判定して完了とする。導入先の AGENTS.md が Copilot 待ちをマージ前提にしておらず、ユーザーも今回それを指示していないなら、このルールは適用しない。理由: `reviewDecision` や未到着の行コメント 0 件を通ったと読む事故が実在する。
-  - ❌ `reviewDecision`・`mergeable`・レビュー配列の目視・セルフレビューを通った根拠にする
-  - ✅ 対象 PR へのスクリプト終了コード 0 だけを通ったとする
-- **待ちスクリプトの終了コードが 1 のとき**: 指摘を直して CI を通してから再依頼する。終了コード 0 になるまでマージしない。
-- **待ちスクリプトの終了コードが 2 のとき**: マージしない。標準出力の `FAIL_NOT_REQUESTED` なら GraphQL `botIds` で取り直し、`FAIL_TIMEOUT` / `FAIL_PENDING` なら報告する。
+- **PR をマージするとき**: いま依頼中のレビュアーと、走っている / 現行 HEAD に未提出の Copilot レビューを終端まで待ってからマージする。未解決の指摘があるうちはマージしない。依頼も Copilot チェックも無ければレビュー待ちはしない。理由: レビュー依頼は承認待ちであり、CI やセルフレビューでは代替できない。
+  1. 人間: 最新の state が `APPROVED`。`COMMENTED` は承認ではない。
+  2. Copilot(`copilot-pull-request-reviewer`): 依頼中・チェック実行中・現行 HEAD にレビュー未提出のいずれなら `~/.grok/skills/git-workflow/scripts/wait-copilot-review.sh` を実行し、終了コードだけで判定する。`APPROVED` は求めない(Copilot はほぼ `COMMENTED`)。0 は現行 HEAD へのレビューがあり行コメント 0。1 は行コメントあり。
+  3. 終了コード 1: 指摘を直して CI を通してから再依頼する。0 になるまでマージしない。
+  4. 終了コード 2: マージしない。`FAIL_NOT_REQUESTED` なら GraphQL `botIds` で取り直し、`FAIL_TIMEOUT` / `FAIL_PENDING` なら報告する。
+  - ❌ `reviewDecision`・`mergeable`・セルフレビュー・「マージしてよければ」だけでマージする
+  - ✅ 依頼中レビュアーを列挙し、人間は `APPROVED`、Copilot はスクリプト終了コード 0
 - **「Copilot を最大 N 回」など回数上限付きでレビューを回すとき**: (1) line comment が 0 なら再依頼せず打ち切る (2) 指摘があれば直して CI を通してから次の依頼。理由: 指摘ゼロの再依頼は overview だけになりやすく、直す前の再依頼は同じ指摘の繰り返しになる。
 - **マージ済みかを判断するとき**: fetch 済みの `origin/main`(`git grep <symbol> origin/main` 等)と issue tracker / PR の state を根拠にする。ドキュメント内の status 表記とローカルの main checkout は stale になり得るので根拠にしない。

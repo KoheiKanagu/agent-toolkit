@@ -10,7 +10,8 @@
 
 ## git / GitHub / CI
 
-- **コミット・作業ブランチ・worktree・push・rebase・PR 投稿・CI / デプロイ監視をするとき**: `skills/git-workflow` を読んでから着手する。PR の新規作成は続けて `skills/create-pr`。
+- **コミット・作業ブランチ・worktree・push・rebase・PR 投稿・マージ・CI / デプロイ監視をするとき**: `skills/git-workflow` を読んでから着手する。PR の新規作成は続けて `skills/create-pr`。
+- **PR をマージするとき**: 依頼中のレビュアーのレビューを終端まで待つ。未解決の指摘があるうちはマージしない。判定の詳細は `skills/git-workflow`。理由: レビュー依頼は承認待ちであり、CI 成功やセルフレビューでは代替できない。
 
 ## テストとコマンド実行
 
