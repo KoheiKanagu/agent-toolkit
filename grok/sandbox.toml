@@ -20,6 +20,7 @@ read_write = [
   "/Users/kingu/fvm",
   "/Users/kingu/.pub-cache",
   "/Users/kingu/.dart-tool",
+  "/Users/kingu/.dartServer",
   # SPM / xcodebuild / シミュ（シェル経由）
   "/Users/kingu/Library/Caches/org.swift.swiftpm",
   "/Users/kingu/Library/Developer/Xcode",
