@@ -13,6 +13,7 @@ grok/
 skills/
   git-workflow/SKILL.md          # コミット・push・PR 投稿・CI 監視の規約
   create-pr/SKILL.md             # PR 作成前チェックリストと body の書き方
+  create-issue/SKILL.md          # issue 本文。受け入れ条件必須。プロジェクトのテンプレ優先
   review-pr/SKILL.md             # PR レビューの方法論・判断基準
   triage-issues/SKILL.md         # issue の実装可能性トリアージの判断基準
   promote-learnings/SKILL.md     # 個人のナレッジをチーム共有ナレッジへ昇格するループ
