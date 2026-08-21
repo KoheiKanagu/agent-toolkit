@@ -24,6 +24,7 @@ read_write = [
   # SPM / xcodebuild / シミュ（シェル経由）
   "/Users/kingu/Library/Caches/org.swift.swiftpm",
   "/Users/kingu/Library/Developer/Xcode",
+  "/Volumes/SSD/Xcode",                            # キャッシュは外に出している
   "/Users/kingu/Library/Developer/CoreSimulator",
   # git commit GPG 署名
   "/Users/kingu/.gnupg",
