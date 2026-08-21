@@ -18,7 +18,7 @@ description: コミット、作業ブランチ、worktree、push、rebase、stac
 - 1変更 = 1論理コミット。
 - **worktree・作業ブランチを作るとき**: 起点は必ず `origin/main`(リモート ref)。ローカルの `main` は未 push コミットを含むことがあり、PR の diff に混入する。
 - **デフォルトブランチ上で既に変更・コミットしてしまったとき**: 現 HEAD から作業ブランチを切って退避し、ローカルのデフォルトブランチを origin に揃え直す。
-- **worktree を作るとき**: 配置先は `../worktrees/<リポジトリ名>/<issue番号 or ブランチ名>` にする。リポジトリ外に置くことで、誤って本体の worktree や gitignore に混入するのを防ぐ。
+- **worktree を作るとき**: `git worktree` で作る。配置は導入先の AGENTS.md または docs の指定があればそれに従い、ディレクトリだけなら直下の名前は定めない。指定が無ければ `../worktrees/<リポジトリ名>/<issue番号 or ブランチ名>`。理由: 置き場はリポジトリごとに違う。
 - **push する前**(履歴書き換え(amend・rebase)をしたら、次の push の前に再確認): ベース汚染を確認する。`git fetch origin <base>` してから、次の両方を満たして完了とする — (1) `git diff --name-only origin/<base>...HEAD` にこの PR が触るはずのないパスがない、(2) `git cherry origin/<base> HEAD` に `-` で始まる行がない(ベースと patch 等価な重複コミット — 誤った rebase/reset がマージ済みの作業を再導入した印)。どちらかに該当したら rebase で取り除いてから push する。
 - **stacked PR を rebase するとき**: 依存 PR がマージされたら、`git rebase --onto` の前に必ず `git fetch origin <base>`。古い base への rebase は依存のマージ済み変更を無言で落とす(rebase は自分の diff しか replay しない)。rebase 後、依存のシンボルが HEAD に残っていることを grep で確認して完了とする。
 - **stacked PR の下層ブランチに修正を入れたあと、上層を載せ直すとき**: 上層を毎回フル cascade rebase しない。各上層はその層の独自コミットだけ `git rebase --onto <修正後の下層 tip> <修正前の下層 tip>`(または同等)で載せ、下から順に行う。全体 cascade はコンフリクト連鎖などで必要になったときだけ。理由: 下層の小さな修正で全 PR の CI を焼き直すのを防ぐ。

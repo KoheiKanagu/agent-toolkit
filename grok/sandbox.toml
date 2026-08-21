@@ -31,4 +31,6 @@ read_write = [
   "/Users/kingu/.cache/gh",
   # agent-toolkit
   "/Users/kingu/Develop/agent-toolkit",
+  # git worktree 既定配置（導入先指定が無いとき）
+  "/Users/kingu/Develop/worktrees",
 ]
