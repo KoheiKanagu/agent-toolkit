@@ -10,6 +10,9 @@
 
 ## git / GitHub / CI
 
+- **実装または調査を始めるとき**: リポジトリのコードを読むか変える作業では、この作業用の worktree が既にあればそこに移動し、無ければ `git fetch` した最新の `origin/main` から `git worktree` を切って移動してから着手する。配置は `skills/git-workflow`。理由: 別作業の未コミットや古い main を対象にしない。
+  - ❌ いまのブランチのままコードを読んでから worktree を切る
+  - ✅ 既存の作業用 worktree へ移動する。無ければ fetch → worktree → 移動
 - **コミット・作業ブランチ・worktree・push・rebase・PR 投稿・マージ・CI / デプロイ監視をするとき**: `skills/git-workflow` を読んでから着手する。PR の新規作成は続けて `skills/create-pr`。
 - **issue を新規作成するとき**(本文下書きを含む): `skills/create-issue` を読んでから着手する。
 - **PR をマージするとき**: 依頼中のレビュアーのレビューを終端まで待つ。未解決の指摘があるうちはマージしない。判定の詳細は `skills/git-workflow`。理由: レビュー依頼は承認待ちであり、CI 成功やセルフレビューでは代替できない。

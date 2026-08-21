@@ -16,7 +16,7 @@ description: コミット、作業ブランチ、worktree、push、rebase、stac
 ### コミットと push
 
 - 1変更 = 1論理コミット。
-- **worktree・作業ブランチを作るとき**: 起点は必ず `origin/main`(リモート ref)。ローカルの `main` は未 push コミットを含むことがあり、PR の diff に混入する。
+- **worktree・作業ブランチを作るとき**: 起点は `git fetch` した最新の `origin/main`(リモート ref)。ローカルの `main` は使わない。理由: 未 push コミットや古い tip が PR の diff に混入する。
 - **デフォルトブランチ上で既に変更・コミットしてしまったとき**: 現 HEAD から作業ブランチを切って退避し、ローカルのデフォルトブランチを origin に揃え直す。
 - **worktree を作るとき**: `git worktree` で作る。配置は導入先の AGENTS.md または docs の指定があればそれに従い、ディレクトリだけなら直下の名前は定めない。指定が無ければ `../worktrees/<リポジトリ名>/<issue番号 or ブランチ名>`。理由: 置き場はリポジトリごとに違う。
 - **push する前**(履歴書き換え(amend・rebase)をしたら、次の push の前に再確認): ベース汚染を確認する。`git fetch origin <base>` してから、次の両方を満たして完了とする — (1) `git diff --name-only origin/<base>...HEAD` にこの PR が触るはずのないパスがない、(2) `git cherry origin/<base> HEAD` に `-` で始まる行がない(ベースと patch 等価な重複コミット — 誤った rebase/reset がマージ済みの作業を再導入した印)。どちらかに該当したら rebase で取り除いてから push する。
