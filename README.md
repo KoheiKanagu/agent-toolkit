@@ -8,7 +8,8 @@
 AGENTS.md                    # 常時ロードされる共通ルール(毎ターン読まれるため厳選)
 grok/
   sandbox.toml               # Grok グローバル sandbox profile（~/.grok/sandbox.toml へリンク）
-  lsp.json                   # Grok グローバル LSP servers（~/.grok/lsp.json へリンク）
+  lsp/                       # Language Server 正本（dart.json / swift.json）
+  copy-lsp.sh                # 正本を <repo>/.grok/lsp.json へコピーする
   permission.toml            # グローバル [permission] deny 正本（install で config.toml にマージ）
 skills/
   git-workflow/SKILL.md          # コミット・push・PR 投稿・CI 監視の規約
@@ -49,7 +50,7 @@ skills/
 - **Grok**:
   - `AGENTS.md` → `~/.grok/AGENTS.md`
   - `grok/sandbox.toml` → `~/.grok/sandbox.toml`
-  - `grok/lsp.json` → `~/.grok/lsp.json`
+  - 旧 `~/.grok/lsp.json` リンクがあれば外す（グローバル Language Server は置かない）
   - `grok/permission.toml` の `[permission]` を `~/.grok/config.toml` にマージ（他セクションは触らない）
   - `~/.grok/config.toml` に `[sandbox] profile = "workspace-safe"` を保証（他キーは触らない）
   - 各スキルを `~/.grok/skills/<name>` に個別リンク（既存の Grok 付属スキルを潰さない）
@@ -61,6 +62,7 @@ skills/
 
 1. プロジェクトの `AGENTS.md` には、そのリポジトリ固有の境界・正本・トリガーだけを書く（スキル `bootstrap-agent-harness`）
 2. プロジェクト限定の手順スキルは `<repo>/.agents/skills/` に置く。toolkit のスキルはグローバルリンクで足りる
+3. Language Server: `grok/copy-lsp.sh <repo> <lang> [lang ...]`（スキル `bootstrap-agent-harness`。言語は指定する。グローバルには置かない）
 
 ## 導入先の AGENTS.md で定義する値
 
